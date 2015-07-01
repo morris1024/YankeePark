@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFTester", "WPFTester\WPFTester.csproj", "{067F2A08-C919-4760-9409-4FDE41114EFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTester", "ConsoleTester\ConsoleTester.csproj", "{9DE9842B-033E-46C8-99D4-05B837842C19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitmapHandler", "BitmapHandler\BitmapHandler.csproj", "{8BB973C1-D2CB-4B3D-B545-678C1B40E006}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{067F2A08-C919-4760-9409-4FDE41114EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{067F2A08-C919-4760-9409-4FDE41114EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{067F2A08-C919-4760-9409-4FDE41114EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{067F2A08-C919-4760-9409-4FDE41114EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE9842B-033E-46C8-99D4-05B837842C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE9842B-033E-46C8-99D4-05B837842C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE9842B-033E-46C8-99D4-05B837842C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE9842B-033E-46C8-99D4-05B837842C19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB973C1-D2CB-4B3D-B545-678C1B40E006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB973C1-D2CB-4B3D-B545-678C1B40E006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB973C1-D2CB-4B3D-B545-678C1B40E006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB973C1-D2CB-4B3D-B545-678C1B40E006}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
