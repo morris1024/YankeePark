@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.Common;
 using System.Collections.Generic;
+using MySql.Data.MySqlClient;
 
 /***************************************************
  * Creator: Morris @ PC-HAMILTON
@@ -18,10 +19,15 @@ namespace DBUtil
     public class DBHelper
     {
         public static string connectionString = "#";
-        public DBHelper()
-        {            
+        
+        static DBHelper() {
+            string connStrTmp = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+            if (string.IsNullOrWhiteSpace(connStrTmp))
+            {
+                connStrTmp = "";
+            }
         }
-
+        
         #region 公用方法
         /// <summary>
         /// 判断是否存在某表的某个字段
