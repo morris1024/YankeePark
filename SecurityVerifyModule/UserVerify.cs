@@ -38,8 +38,16 @@ namespace SecurityVerifyModule
     /// </summary>
     public class UserVerify
     {
-        public bool AddUser(string id, string password);
-        public bool AddUser(string id,string password,string salt);
+        public bool AddUser(string id, string password)
+        {
+            return AddUser(id, password, Tools.GenerateRandomString(20));
+        }
+        public bool AddUser(string id, string password, string salt)
+        {
+            string sqlCmdStr = "insert into user(uid,pwd,salt) values('?id','?pwd','?salt')";
+            string pwdHashString = Tools.getHashString(password.Trim() + salt.Trim());
+            return false;
+        }
         public int CheckUser(string id, string password);
         public int UpdatePassword(string id, string password);
         public int UpdatePasswordAndSalt(string id, string password);
