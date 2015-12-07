@@ -15,6 +15,9 @@ using System.Data;
  ***************************************************/
 namespace DBUtil
 {
+    /// <summary>
+    /// sqlhelper基类
+    /// </summary>
     public abstract class SQLHelper
     {
         protected static string connectionString;
@@ -28,6 +31,7 @@ namespace DBUtil
             connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[connName].ConnectionString;
         }
 
+        #region 方法示例
         //#region 公用方法
         ///// <summary>
         ///// 判断是否存在某表的某个字段
@@ -229,6 +233,6 @@ namespace DBUtil
         ///// <returns>MySqlCommand 对象实例</returns>
         //private static MySqlCommand BuildIntCommand(MySqlConnection connection, string storedProcName, IDataParameter[] parameters);
         //#endregion
-
+        #endregion
     }
 }

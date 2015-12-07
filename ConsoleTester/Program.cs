@@ -10,18 +10,11 @@ namespace ConsoleTester
     {
         static void Main(string[] args)
         {
-            int i;
-            for (i = 0; i < 26; i++)
+            for (int i = 0; i < 5; i++)
             {
-                System.Console.Write("'" + (char)('a' + i) + "',");
-            }
-            for (i = 0; i < 26; i++)
-            {
-                System.Console.Write("'" + (char)('A' + i) + "',");
-            }
-            for (i = 0; i < 10; i++)
-            {
-                System.Console.Write("'" + (char)('0' + i) + "',");
+                System.Console.WriteLine(
+                    SecurityVerifyModule.RandomStringBuilder.GenerateRandomString(20)
+                    );
             }
             System.Console.Read();
         }

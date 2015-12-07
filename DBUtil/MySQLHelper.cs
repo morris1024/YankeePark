@@ -14,6 +14,9 @@ using MySql.Data.MySqlClient;
  ***************************************************/
 namespace DBUtil
 {
+    /// <summary>
+    /// MySqlHelper
+    /// </summary>
     public class MySQLHelper : SQLHelper
     {
 
