@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using MySql.Data.MySqlClient;
 
 /***************************************************
  * Creator: Morris @ PC-HAMILTON
@@ -38,19 +40,142 @@ namespace SecurityVerifyModule
     /// </summary>
     public class UserVerify
     {
+        /// <summary>
+        /// 添加用户，自动生成salt
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="password">password</param>
+        /// <returns>添加结果</returns>
         public bool AddUser(string id, string password)
         {
             return AddUser(id, password, Tools.GenerateRandomString(20));
         }
+
+        /// <summary>
+        /// 添加用户，自定义salt
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="password">password</param>
+        /// <param name="salt">salt</param>
+        /// <returns>添加结果</returns>
         public bool AddUser(string id, string password, string salt)
         {
-            string sqlCmdStr = "insert into user(uid,pwd,salt) values('?id','?pwd','?salt')";
             string pwdHashString = Tools.getHashString(password.Trim() + salt.Trim());
-            return false;
+            
+            //DAL part begins here
+            string sqlCmdStr = "insert into user(uid,pwd,salt) values(@id,@pwd,@salt)";
+            MySql.Data.MySqlClient.MySqlParameter[] paramList = new MySql.Data.MySqlClient.MySqlParameter[3];
+            paramList[0] = new MySql.Data.MySqlClient.MySqlParameter("@id", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paramList[1] = new MySql.Data.MySqlClient.MySqlParameter("@pwd", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paramList[2] = new MySql.Data.MySqlClient.MySqlParameter("@salt", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paramList[0].Value = id;
+            paramList[1].Value = pwdHashString;
+            paramList[2].Value = salt;
+            
+            if (DBUtil.MySQLHelper.ExecuteSql(sqlCmdStr, paramList) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        public int CheckUser(string id, string password);
-        public int UpdatePassword(string id, string password);
-        public int UpdatePasswordAndSalt(string id, string password);
-        public int UpdatePasswordAndSalt(string id, string password, string salt);
+        /// <summary>
+        /// 检验id-password
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="password">password</param>
+        /// <returns>1为通过，-1为未通过，0为不存在用户或其他</returns>
+        public int CheckUser(string id, string password)
+        {
+            string sqlCmdStr = "select salt from user where uid=@uid";
+            //List<MySql.Data.MySqlClient.MySqlParameter> paraList = new List<MySql.Data.MySqlClient.MySqlParameter>();
+            //paraList.Add(new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar));
+            MySql.Data.MySqlClient.MySqlParameter paraUid = 
+                new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paraUid.Value = id;
+            string salt = DBUtil.MySQLHelper.GetSingle(sqlCmdStr, paraUid) as string;
+            if (!string.IsNullOrWhiteSpace(salt))
+            {
+                string hashedPwd = Tools.getHashString(password.Trim() + salt.Trim());
+                MySql.Data.MySqlClient.MySqlParameter paraPwd =
+                new MySql.Data.MySqlClient.MySqlParameter("@pwd", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+                paraPwd.Value = hashedPwd;
+
+                sqlCmdStr = "select count(*) from user where uid=@uid and pwd=@pwd";
+                long resultCount = (long)DBUtil.MySQLHelper.GetSingle(sqlCmdStr, paraUid, paraPwd);
+                if (resultCount == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            return 0;
+        }
+        public int UpdatePassword(string id, string password)
+        {
+            string sqlCmdStr = "select salt from user where uid=@uid";
+            //List<MySql.Data.MySqlClient.MySqlParameter> paraList = new List<MySql.Data.MySqlClient.MySqlParameter>();
+            //paraList.Add(new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar));
+            MySql.Data.MySqlClient.MySqlParameter paraUid =
+                new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paraUid.Value = id;
+            string salt = DBUtil.MySQLHelper.GetSingle(sqlCmdStr, paraUid) as string;
+            if (!string.IsNullOrWhiteSpace(salt))
+            {
+                string hashedPwd = Tools.getHashString(password.Trim() + salt.Trim());
+                sqlCmdStr = "update user set pwd=@pwd where uid=@id;";
+                MySql.Data.MySqlClient.MySqlParameter[] paramList = new MySql.Data.MySqlClient.MySqlParameter[2];
+                paramList[0] = new MySql.Data.MySqlClient.MySqlParameter("@id", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+                paramList[1] = new MySql.Data.MySqlClient.MySqlParameter("@pwd", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+                paramList[0].Value = id;
+                paramList[1].Value = hashedPwd;
+
+                if (DBUtil.MySQLHelper.ExecuteSql(sqlCmdStr, paramList) == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public int UpdatePasswordAndSalt(string id, string password)
+        {
+            return UpdatePasswordAndSalt(id, password, Tools.GenerateRandomString(20));
+        }
+        public int UpdatePasswordAndSalt(string id, string password, string salt)
+        {
+            string pwdHashString = Tools.getHashString(password.Trim() + salt.Trim());
+
+            //DAL part begins here
+            string sqlCmdStr = "update user set pwd=@pwd , salt=@salt  where uid=@id;";
+            MySql.Data.MySqlClient.MySqlParameter[] paramList = new MySql.Data.MySqlClient.MySqlParameter[3];
+            paramList[0] = new MySql.Data.MySqlClient.MySqlParameter("@id", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paramList[1] = new MySql.Data.MySqlClient.MySqlParameter("@pwd", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paramList[2] = new MySql.Data.MySqlClient.MySqlParameter("@salt", MySql.Data.MySqlClient.MySqlDbType.VarChar);
+            paramList[0].Value = id;
+            paramList[1].Value = pwdHashString;
+            paramList[2].Value = salt;
+
+            if (DBUtil.MySQLHelper.ExecuteSql(sqlCmdStr, paramList) == 1)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
     }
+
 }
