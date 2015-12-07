@@ -81,6 +81,7 @@ namespace SecurityVerifyModule
                 return false;
             }
         }
+
         /// <summary>
         /// 检验id-password
         /// </summary>
@@ -90,8 +91,6 @@ namespace SecurityVerifyModule
         public int CheckUser(string id, string password)
         {
             string sqlCmdStr = "select salt from user where uid=@uid";
-            //List<MySql.Data.MySqlClient.MySqlParameter> paraList = new List<MySql.Data.MySqlClient.MySqlParameter>();
-            //paraList.Add(new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar));
             MySql.Data.MySqlClient.MySqlParameter paraUid = 
                 new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar);
             paraUid.Value = id;
@@ -116,6 +115,13 @@ namespace SecurityVerifyModule
             }
             return 0;
         }
+
+        /// <summary>
+        /// 更新密码(不改变salt)
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="password">password</param>
+        /// <returns>1为成功，-1为失败，0为无此id或其他</returns>
         public int UpdatePassword(string id, string password)
         {
             string sqlCmdStr = "select salt from user where uid=@uid";
@@ -149,10 +155,24 @@ namespace SecurityVerifyModule
                 return 0;
             }
         }
+        /// <summary>
+        /// 更新password并是生成新的随机salt
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="password">password</param>
+        /// <returns>1为成功，-1为失败</returns>
         public int UpdatePasswordAndSalt(string id, string password)
         {
             return UpdatePasswordAndSalt(id, password, Tools.GenerateRandomString(20));
         }
+
+        /// <summary>
+        /// 更新password及指定salt
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="password">password</param>
+        /// <param name="salt">salt</param>
+        /// <returns>1为成功，-1为失败</returns>
         public int UpdatePasswordAndSalt(string id, string password, string salt)
         {
             string pwdHashString = Tools.getHashString(password.Trim() + salt.Trim());
