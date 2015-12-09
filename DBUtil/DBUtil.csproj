@@ -47,7 +47,9 @@
     <Compile Include="ASQLHelper.cs" />
     <Compile Include="CommandInfo.cs" />
     <Compile Include="MySQLHelper.cs" />
+    <Compile Include="ODBCHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLServerHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
