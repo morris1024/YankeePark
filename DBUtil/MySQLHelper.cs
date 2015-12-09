@@ -17,7 +17,7 @@ namespace DBUtil
     /// <summary>
     /// MySqlHelper
     /// </summary>
-    public class MySQLHelper : SQLHelper
+    public class MySQLHelper : ASQLHelper
     {
 
         //#region 公用方法

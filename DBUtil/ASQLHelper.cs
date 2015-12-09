@@ -1,27 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-
-
 
 /***************************************************
  * Creator: Morris @ PC-HAMILTON
- * Create Date: 2015/12/6-星期日 23:23:57
- * ID: d0e6fc8e-d98c-472b-8d9a-7860e7802b93
+ * Create Date: 2015/12/9-星期三 15:49:30
+ * ID: b92f06f8-e96e-49e3-b64f-bfb76f13a223
  ***************************************************/
 namespace DBUtil
 {
-    /// <summary>
-    /// sqlhelper基类
-    /// </summary>
-    public abstract class SQLHelper
+    public class ASQLHelper
     {
         protected static string connectionString;
-        static SQLHelper()
+        static ASQLHelper()
         {
             string connName = System.Configuration.ConfigurationManager.AppSettings["connName"];
             if (string.IsNullOrWhiteSpace(connName))
