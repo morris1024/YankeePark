@@ -125,8 +125,7 @@ namespace SecurityVerifyModule
         public int UpdatePassword(string id, string password)
         {
             string sqlCmdStr = "select salt from user where uid=@uid";
-            //List<MySql.Data.MySqlClient.MySqlParameter> paraList = new List<MySql.Data.MySqlClient.MySqlParameter>();
-            //paraList.Add(new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar));
+
             MySql.Data.MySqlClient.MySqlParameter paraUid =
                 new MySql.Data.MySqlClient.MySqlParameter("@uid", MySql.Data.MySqlClient.MySqlDbType.VarChar);
             paraUid.Value = id;
