@@ -799,7 +799,7 @@ namespace DBUtil
         {
             OdbcCommand command = BuildQueryCommand(connection, storedProcName, parameters);
             command.Parameters.Add(new OdbcParameter("ReturnValue",
-                OdbcType.Int32, 4, ParameterDirection.ReturnValue,
+                OdbcType.Int, 4, ParameterDirection.ReturnValue,
                 false, 0, 0, string.Empty, DataRowVersion.Default, null));
             return command;
         }
