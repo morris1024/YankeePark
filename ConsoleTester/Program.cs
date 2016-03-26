@@ -10,7 +10,10 @@ namespace ConsoleTester
     {
         static void Main(string[] args)
         {
-            TextMerger.append();
+            TextMerger.append(
+                @"E:\Temp\Joe Data\0326 DataFiles\S2016032610382909454",
+                @"E:\Temp\Joe Data\0326 DataFiles\0326.txt",
+                15);
         }
     }
 }

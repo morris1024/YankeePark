@@ -15,12 +15,12 @@ namespace ConsoleTester
 {
     public class TextMerger
     {
-        static public void append(string baseFilePath,string outputFilePath,int MaxFileNo)
+        static public void append(string baseFilePath,string outputFilePath,int fileCount)
         {
             using (StreamWriter sw = File.CreateText(outputFilePath)) 
             {
                 System.Console.WriteLine("create outputfile:" + outputFilePath);
-                for (int counter = 0; counter < MaxFileNo; counter++)
+                for (int counter = 0; counter < fileCount; counter++)
                 {
                     string tmpFilePath=baseFilePath+counter.ToString().PadLeft(2,'0')+".txt";
                     if (File.Exists(tmpFilePath))
