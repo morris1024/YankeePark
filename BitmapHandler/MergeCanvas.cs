@@ -48,12 +48,7 @@ namespace Morris.YankeePark.BitmapHandler
                 return Graphics.FromImage(this.baseBitmap);
             }
         }
-
-        /// <summary>
-        /// 聚合元素列表
-        /// </summary>
-        public List<MergeElement> mergeElementList;
-
+               
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -105,22 +100,25 @@ namespace Morris.YankeePark.BitmapHandler
         {
             baseBitmapGraphics.DrawImage(this._orginBaseBitmap, 0, 0);
         }
+              
 
         /// <summary>
         /// 生成聚合图像
         /// </summary>
-        public void merge()
+        /// <param name="mergeElementList">聚合图像数组，长度不大于10</param>
+        public void merge(MergeElement[] mergeElementList)
         {
-            resetCanvas();
-            if (this.mergeElementList != null)
+            if(mergeElementList.Length>10)
             {
-                List<MergeElement>.Enumerator eTmp = this.mergeElementList.GetEnumerator();
-                while (eTmp.Current != null)
+                return;
+            }
+            resetCanvas();
+            if (mergeElementList != null)
+            {   
+                foreach(MergeElement me in mergeElementList)
                 {
-                    MergeElement meTmp = eTmp.Current;
-                    baseBitmapGraphics.DrawImage(meTmp.bitmap,
-                        new Rectangle(meTmp.x, meTmp.y, meTmp.width, meTmp.height));
-                    eTmp.MoveNext();
+                    baseBitmapGraphics.DrawImage(me.bitmap,
+                        new Rectangle(me.x, me.y, me.width, me.height));
                 }
             }
         }
@@ -131,8 +129,18 @@ namespace Morris.YankeePark.BitmapHandler
         /// <param name="mergeElementList">聚合元素列表</param>
         public void merge(List<MergeElement> mergeElementList)
         {
-            this.mergeElementList = mergeElementList;
-            merge();
+            resetCanvas();
+            if (mergeElementList != null)
+            {
+                List<MergeElement>.Enumerator meEnumer = mergeElementList.GetEnumerator();
+                while (meEnumer.Current != null)
+                {
+                    MergeElement me = meEnumer.Current;
+                    baseBitmapGraphics.DrawImage(me.bitmap,
+                        new Rectangle(me.x, me.y, me.width, me.height));
+                    meEnumer.MoveNext();
+                }
+            }
         }
 
         /// <summary>
@@ -151,6 +159,8 @@ namespace Morris.YankeePark.BitmapHandler
         public void saveMergedPicture(string fileName, ImageFormat format)
         {
             this.baseBitmap.Save(fileName, format);
+            System.Console.WriteLine("-> " + fileName);
         }
+               
     }
 }
