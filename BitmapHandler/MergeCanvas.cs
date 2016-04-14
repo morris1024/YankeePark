@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 /***************************************************
  * Creator: Morris @ PC-HAMILTON
@@ -12,58 +13,57 @@ using System.Drawing;
  ***************************************************/
 namespace Morris.YankeePark.BitmapHandler
 {
+    /// <summary>
+    /// 聚合框架类
+    /// </summary>
     public class MergeCanvas
     {
-        private Bitmap _bmpCanvas;
-        private Bitmap _bmpOrginCanvas;
+        /// <summary>
+        /// 聚合框架底图实例
+        /// </summary>
+        private Bitmap _baseBitmap;
+
+        /// <summary>
+        /// 聚合框架底图备份实例
+        /// </summary>
+        private Bitmap _orginBaseBitmap;
         
-        public Bitmap bmpCanvas
+        /// <summary>
+        /// 聚合框架底图
+        /// </summary>
+        public Bitmap baseBitmap
         {
             get
             {
-                return this._bmpCanvas;
+                return this._baseBitmap;
             }
         }
-        public Graphics grpCanvas
+        /// <summary>
+        /// 聚合框架底图Graphics
+        /// </summary>
+        public Graphics baseBitmapGraphics
         {
             get
             {
-                return Graphics.FromImage(this.bmpCanvas);
+                return Graphics.FromImage(this.baseBitmap);
             }
         }
 
-        private List<MergeElement> _lstMergeElements;
+        /// <summary>
+        /// 聚合元素列表
+        /// </summary>
+        public List<MergeElement> mergeElementList;
 
-        public List<MergeElement> lstMergeElements
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="baseBitmap"></param>
+        public MergeCanvas(Bitmap baseBitmap)
         {
-            get
+            if (baseBitmap != null)
             {
-                return this._lstMergeElements;
-            }
-            set
-            {
-                this._lstMergeElements = value;
-                resetCanvas();
-                if (this._lstMergeElements != null)
-                {
-                    List<MergeElement>.Enumerator eTmp = this._lstMergeElements.GetEnumerator();
-                    while (eTmp.Current != null)
-                    {
-                        MergeElement meTmp = eTmp.Current;
-                        grpCanvas.DrawImage(meTmp.bitmap, 
-                            new Rectangle(meTmp.x, meTmp.y, meTmp.width, meTmp.height));
-                        eTmp.MoveNext();
-                    }
-                }
-            }
-        }
-
-        public MergeCanvas(Bitmap bmpCanvas)
-        {
-            if (bmpCanvas != null)
-            {
-                this._bmpCanvas = bmpCanvas;
-                this._bmpOrginCanvas = bmpCanvas.Clone() as Bitmap;
+                this._baseBitmap = baseBitmap;
+                this._orginBaseBitmap = baseBitmap.Clone() as Bitmap;
             }
             else
             {
@@ -71,25 +71,86 @@ namespace Morris.YankeePark.BitmapHandler
             }
         }
 
+        /// <summary>
+        /// 构造函数，底图为透明
+        /// </summary>
+        /// <param name="width">框架宽</param>
+        /// <param name="height">框架高</param>
         public MergeCanvas(int width, int height)
         {
-            this._bmpCanvas = new Bitmap(width, height);
-            this.bmpCanvas.MakeTransparent();
-            this._bmpOrginCanvas = bmpCanvas.Clone() as Bitmap;
+            this._baseBitmap = new Bitmap(width, height);
+            this.baseBitmap.MakeTransparent();
+            this._orginBaseBitmap = baseBitmap.Clone() as Bitmap;
         }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="width">框架宽</param>
+        /// <param name="height">框架高</param>
+        /// <param name="color">底图颜色</param>
         public MergeCanvas(int width, int height, Color color)
         {
-            this._bmpCanvas = new Bitmap(width, height);
-            Graphics grpTmp = Graphics.FromImage(bmpCanvas);
+            this._baseBitmap = new Bitmap(width, height);
+            Graphics grpTmp = Graphics.FromImage(baseBitmap);
             SolidBrush brTmp = new SolidBrush(color);
-            grpTmp.FillRectangle(brTmp, 0, 0, this.bmpCanvas.Width, this.bmpCanvas.Height);
-            this._bmpOrginCanvas = bmpCanvas.Clone() as Bitmap;
+            grpTmp.FillRectangle(brTmp, 0, 0, this.baseBitmap.Width, this.baseBitmap.Height);
+            this._orginBaseBitmap = baseBitmap.Clone() as Bitmap;
         }
 
+        /// <summary>
+        /// 重置框架底图
+        /// </summary>
         private void resetCanvas()
         {
-            grpCanvas.DrawImage(this._bmpOrginCanvas, 0, 0);
+            baseBitmapGraphics.DrawImage(this._orginBaseBitmap, 0, 0);
+        }
+
+        /// <summary>
+        /// 生成聚合图像
+        /// </summary>
+        public void merge()
+        {
+            resetCanvas();
+            if (this.mergeElementList != null)
+            {
+                List<MergeElement>.Enumerator eTmp = this.mergeElementList.GetEnumerator();
+                while (eTmp.Current != null)
+                {
+                    MergeElement meTmp = eTmp.Current;
+                    baseBitmapGraphics.DrawImage(meTmp.bitmap,
+                        new Rectangle(meTmp.x, meTmp.y, meTmp.width, meTmp.height));
+                    eTmp.MoveNext();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 生成聚合图像
+        /// </summary>
+        /// <param name="mergeElementList">聚合元素列表</param>
+        public void merge(List<MergeElement> mergeElementList)
+        {
+            this.mergeElementList = mergeElementList;
+            merge();
+        }
+
+        /// <summary>
+        /// 保存聚合图像，默认格式为png
+        /// </summary>
+        /// <param name="fileName">文件名</param>
+        public void saveMergedPicture(string fileName)
+        {
+            this.baseBitmap.Save(fileName, ImageFormat.Png);
+        }
+        /// <summary>
+        /// 保存聚合图像
+        /// </summary>
+        /// <param name="fileName">文件名</param>
+        /// <param name="format">格式</param>
+        public void saveMergedPicture(string fileName, ImageFormat format)
+        {
+            this.baseBitmap.Save(fileName, format);
         }
     }
 }

@@ -13,7 +13,7 @@ using System.Drawing;
 namespace Morris.YankeePark.BitmapHandler
 {
     /// <summary>
-    /// 聚合元素类
+    /// 聚合元素类。包含图片，左上点，宽高等信息。
     /// </summary>
     public class MergeElement
     {
