@@ -56,7 +56,7 @@ namespace ConsoleTester
         /// <param name="baseFilePath">起始文件名</param>
         /// <param name="outputFilePath">输出文件名</param>
         /// <param name="fileCount">输入文件数量</param>
-        static public void append(string baseFilePath, string outputFilePath, int fileCount)
+        public static void append(string baseFilePath, string outputFilePath, int fileCount)
         {
             using (StreamWriter sw = File.CreateText(outputFilePath))
             {
@@ -87,7 +87,7 @@ namespace ConsoleTester
         /// <summary>
         /// 复制并重命名文件。M-160415-Req
         /// </summary>
-        static void removeFiles()
+        public static void removeFiles()
         {
             string dir = @"E:\1";
             string outDir = @"E:\2\";

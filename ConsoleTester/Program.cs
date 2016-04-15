@@ -14,7 +14,7 @@ namespace ConsoleTester
     {
         static void Main(string[] args)
         {
-            
+            SimpleFunction.removeFiles();
             
         }
     }
