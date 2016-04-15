@@ -38,7 +38,7 @@ namespace Morris.YankeePark.BitmapHandler
             int input2Width = 1920;
             int input2Left = 1440;
             int input2Top = 670;
-            TwoInOneMerge.merge(
+            TwoInOneMerge.batchMerge(
                 inputPicture1Directory, inputPicture2Directory,
                 outputPictureDirectory, outputPictureNamePrefix, System.Drawing.Imaging.ImageFormat.Png,
                 outputWidth, outputHeight,
@@ -83,7 +83,7 @@ namespace Morris.YankeePark.BitmapHandler
                 var input2Enumer = Directory.EnumerateFiles(inputPicture2Directory);
                 int i = 0;
                 string outputPiturePath = outputPictureDirectory + outputPictureNamePrefix +
-                    rand.Next(1, 100000).ToString().PadLeft(5, '0') + "." + outputFormat.ToString();
+                    rand.Next(1, 100000).ToString().PadLeft(5, '0') +  "." + outputFormat.ToString();
                 foreach (string input1PicturePath in input1Enumer)
                 {
                     Bitmap bmpInput1;
@@ -114,7 +114,7 @@ namespace Morris.YankeePark.BitmapHandler
                         {
                             outputPiturePath =
                                 outputPictureDirectory + outputPictureNamePrefix +
-                                rand.Next(1, 100000).ToString().PadLeft(5, '0') + "-" + i + j + "." + outputFormat.ToString();
+                                rand.Next(1, 100000).ToString().PadLeft(5, '0') + "-" + "." + outputFormat.ToString();
                         }
                         MergeElement me2 = new MergeElement(bmpInput2, input2Left, input2Top, input2Width, input2Height);
                         mc.merge(new MergeElement[] {me1,me2});

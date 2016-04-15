@@ -84,5 +84,41 @@ namespace ConsoleTester
             System.Console.ReadKey();
         }
 
+        /// <summary>
+        /// 复制并重命名文件。M-160415-Req
+        /// </summary>
+        static void removeFiles()
+        {
+            string dir = @"E:\1";
+            string outDir = @"E:\2\";
+            if (Directory.Exists(dir))
+            {
+                if (!Directory.Exists(outDir))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(outDir);
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                Random rand = new Random();
+                var enumer = Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories);
+                string outputFilePath = "";
+                foreach (string filePath in enumer)
+                {
+                    while (String.IsNullOrEmpty(outputFilePath) || File.Exists(outputFilePath))
+                    {
+                        outputFilePath =
+                            outDir + rand.Next(1, enumer.Count() * 10000).ToString().PadLeft(5, '0') +
+                            "." + Path.GetExtension(filePath);
+                    }
+                    File.Copy(filePath, outputFilePath);
+                }
+            }
+        }
+
     }
 }
