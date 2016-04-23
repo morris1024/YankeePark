@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityVerifyModule", "Sec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUtil", "DBUtil\DBUtil.csproj", "{ECE15E0D-AEC3-42D5-95B4-C14709329626}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeTools", "OfficeTools\OfficeTools.csproj", "{3621F584-BFE7-4E34-A634-6E124EB4D069}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{ECE15E0D-AEC3-42D5-95B4-C14709329626}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECE15E0D-AEC3-42D5-95B4-C14709329626}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECE15E0D-AEC3-42D5-95B4-C14709329626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3621F584-BFE7-4E34-A634-6E124EB4D069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3621F584-BFE7-4E34-A634-6E124EB4D069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3621F584-BFE7-4E34-A634-6E124EB4D069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3621F584-BFE7-4E34-A634-6E124EB4D069}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

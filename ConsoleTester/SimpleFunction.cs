@@ -32,7 +32,7 @@ namespace ConsoleTester
                    {
                        using(StreamReader sr=File.OpenText(inputFilePath))
                        {
-                           sr.ReadLine();
+                           //sr.ReadLine();
                            while(!sr.EndOfStream)
                            {
                                string line=sr.ReadLine();
@@ -48,6 +48,35 @@ namespace ConsoleTester
                    }
                }
            }
+        }
+
+        public static void cutIntoExt(string inputDirPath, string outputDirPath, string searchPattern = "*.csv")
+        {
+            if (Directory.Exists(inputDirPath))
+            {
+                foreach (string inputFilePath in Directory.GetFiles(inputDirPath, searchPattern))
+                {
+                    string outputFilePath = outputDirPath + Path.GetFileNameWithoutExtension(inputFilePath) + "-OUT" + ".csv";
+                    using (StreamWriter sw = File.CreateText(outputFilePath))
+                    {
+                        using (StreamReader sr = File.OpenText(inputFilePath))
+                        {
+                            //sr.ReadLine();
+                            while (!sr.EndOfStream)
+                            {
+                                string line = sr.ReadLine();
+                                string[] words = line.Split(',');
+                                //string firstWord = words[0];
+                                for (int i = 1; i < words.Length; i++)
+                                {
+                                    sw.WriteLine(words[0] + "," + words[1].Split('+')[0].Trim());
+                                }
+                                sw.Flush();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

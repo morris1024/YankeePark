@@ -58,6 +58,10 @@
       <Project>{ece15e0d-aec3-42d5-95b4-c14709329626}</Project>
       <Name>DBUtil</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OfficeTools\OfficeTools.csproj">
+      <Project>{3621f584-bfe7-4e34-a634-6e124eb4d069}</Project>
+      <Name>OfficeTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SecurityVerifyModule\SecurityVerifyModule.csproj">
       <Project>{b874260c-53c5-4206-a1ec-2643a46e3720}</Project>
       <Name>SecurityVerifyModule</Name>

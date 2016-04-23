@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 
 using Morris.YankeePark.BitmapHandler;
-
+using Morris.YankeePark.OfficeTools;
 
 namespace ConsoleTester
 {
@@ -14,8 +14,9 @@ namespace ConsoleTester
     {
         static void Main(string[] args)
         {
-            SimpleFunction.removeFiles();
-            
+            //SimpleFunction.cutIntoExt(@"e:\a\",@"e:\b\");
+            ExcelTool et = new ExcelTool();
+            et.foo(@"e:\a.xlsx",@"e:\d\b-");
         }
     }
 }
