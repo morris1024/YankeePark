@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
+using System.IO;
+using NPOI.XSSF.UserModel;
+
+
 
 /***************************************************
  * Creator: Morris @ PC-HAMILTON
@@ -16,43 +19,46 @@ namespace Morris.YankeePark.OfficeTools
     {
         public void foo(string inputFileName,string outputFilePrefix)
         {
-            Application app = new Application();
-            if(app==null)
-            {
-                return;
-            }
-            Workbook inputWb=null;
+            
             try
             {
-                app.Visible = false;
-                app.UserControl = false;
-                inputWb = app.Application.Workbooks.Open(inputFileName);
-                var inputSheetsEunumer  = inputWb.Worksheets.GetEnumerator();
-                while(inputSheetsEunumer.MoveNext())
+                using (FileStream inputFile = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
                 {
-                    Worksheet inputSheet = inputSheetsEunumer.Current as Worksheet;
-                    string sheetName = inputSheet.Name as string;
-                    Workbook outputWb = app.Application.Workbooks.Add();
-                    Worksheet outputSheet = outputWb.Worksheets.get_Item(1);
-                    for (int inputCellIndex = 2,outputRowIndex = 1; inputCellIndex <= 58; inputCellIndex++)
+                    XSSFWorkbook inputWb = new NPOI.XSSF.UserModel.XSSFWorkbook(inputFile);
+                    foreach(XSSFSheet inputSheet in inputWb)
                     {
-                        Range tmpRange = inputSheet.Cells[1, inputCellIndex] as Range;
-                        string year = tmpRange.Text as string;
-                        for (int inputRowIndex = 2 ; inputRowIndex <= 33; inputRowIndex++, outputRowIndex++)
+                        string sheetName = inputSheet.SheetName;
+                        NPOI.HSSF.UserModel.HSSFWorkbook outputWb = new NPOI.HSSF.UserModel.HSSFWorkbook();
+                        NPOI.SS.UserModel.ISheet outputSheet = outputWb.CreateSheet();
+                        object[,] data = new object[57, 33];
+                        int index=0;
+                        foreach(XSSFRow row in inputSheet)
                         {
-                            tmpRange = inputSheet.Cells[inputRowIndex, inputCellIndex] as Range;
-                            string value = tmpRange.Value2 as string;
-                            string tmp = year + "\t" + value;
-                            outputSheet.Cells[outputRowIndex, 1] = year;
-                            outputSheet.Cells[outputRowIndex, 2] = value.Split('+')[0].Trim();
-                            //System.Console.WriteLine(year + "\t" + value.Split('+')[0].Trim());
+                            for(int i=0;i<57;i++)
+                            {
+                                data[i, index] = row.GetCell(i + 1);
+                            }
+                            index++;
                         }
+                        foreach()
+                        for (int inputCellIndex = 2, outputRowIndex = 1; inputCellIndex <= 58; inputCellIndex++)
+                        {
+                            string year = data[inputCellIndex, 1] as string;
+                            for (int inputRowIndex = 2; inputRowIndex <= 33; inputRowIndex++, outputRowIndex++)
+                            {
+                                string value = data[inputCellIndex, inputRowIndex] as string;
+                                string tmp = year + "\t" + value;
+                                outputSheet.Cells[outputRowIndex, 1] = year;
+                                outputSheet.Cells[outputRowIndex, 2] = value.Split('+')[0].Trim();
+                                //System.Console.WriteLine(year + "\t" + value.Split('+')[0].Trim());
+                            }
+                        }
+                        //save .xlsx
+                        outputWb.SaveAs(outputFilePrefix + sheetName + ".xlsx", XlFileFormat.xlWorkbookDefault);
+                        //save .xls
+                        //outputWb.SaveAs(outputFilePrefix + sheetName + ".xls", XlFileFormat.xlWorkbookNormal);
+                        outputWb.Close();
                     }
-                    //save .xlsx
-                    outputWb.SaveAs(outputFilePrefix + sheetName + ".xlsx", XlFileFormat.xlWorkbookDefault);
-                    //save .xls
-                    //outputWb.SaveAs(outputFilePrefix + sheetName + ".xls", XlFileFormat.xlWorkbookNormal);
-                    outputWb.Close();
                 }
             }
             finally
