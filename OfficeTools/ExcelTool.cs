@@ -70,6 +70,5 @@ namespace Morris.YankeePark.OfficeTools
                 app.Quit();
             }
         }
-        
     }
 }
