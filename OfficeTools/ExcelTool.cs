@@ -40,7 +40,6 @@ namespace Morris.YankeePark.OfficeTools
                             }
                             index++;
                         }
-                        foreach()
                         for (int inputCellIndex = 2, outputRowIndex = 1; inputCellIndex <= 58; inputCellIndex++)
                         {
                             string year = data[inputCellIndex, 1] as string;
