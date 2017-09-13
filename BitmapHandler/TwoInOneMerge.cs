@@ -76,6 +76,10 @@ namespace Morris.YankeePark.BitmapHandler
             int input2Width,int input2Height,int input2Left,int input2Top
             )
         {
+            if(!Directory.Exists(outputPictureDirectory))
+            {
+                Directory.CreateDirectory(outputPictureDirectory);
+            }
             if (Directory.Exists(inputPicture1Directory) && Directory.Exists(inputPicture2Directory) && Directory.Exists(outputPictureDirectory))
             {
                 MergeCanvas mc = new MergeCanvas(outputWidth, outputHeight);
@@ -114,7 +118,7 @@ namespace Morris.YankeePark.BitmapHandler
                         {
                             outputPiturePath =
                                 outputPictureDirectory + outputPictureNamePrefix +
-                                rand.Next(1, 100000).ToString().PadLeft(5, '0') + "-" + "." + outputFormat.ToString();
+                                rand.Next(1, 100000).ToString().PadLeft(5, '0') + "." + outputFormat.ToString();
                         }
                         MergeElement me2 = new MergeElement(bmpInput2, input2Left, input2Top, input2Width, input2Height);
                         mc.merge(new MergeElement[] {me1,me2});
@@ -126,6 +130,23 @@ namespace Morris.YankeePark.BitmapHandler
                     me1.bitmap.Dispose();
                 }
             }
+        }
+
+        public static void batchMerge(
+            string inputPicture1Directory, string inputPicture2Directory,
+            string outputPictureDirectory, string outputPictureNamePrefix,
+            int outputWidth, int outputHeight,
+            int input1Width, int input1Height, int input1Left, int input1Top,
+            int input2Width, int input2Height, int input2Left, int input2Top
+            )
+        {
+            batchMerge(
+            inputPicture1Directory, inputPicture2Directory,
+            outputPictureDirectory, outputPictureNamePrefix, ImageFormat.Png,
+            outputWidth, outputHeight,
+            input1Width, input1Height, input1Left, input1Top,
+            input2Width, input2Height, input2Left, input2Top
+            );
         }
     }
 }

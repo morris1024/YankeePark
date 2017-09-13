@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DE9842B-033E-46C8-99D4-05B837842C19}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{AF04678F-2578-4B89-9238-9C872813D651}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleTester</RootNamespace>
-    <AssemblyName>ConsoleTester</AssemblyName>
+    <RootNamespace>Checksumor</RootNamespace>
+    <AssemblyName>Checksumor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,42 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Core.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleFunction.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BitmapHandler\BitmapHandler.csproj">
-      <Project>{8bb973c1-d2cb-4b3d-b545-678c1b40e006}</Project>
-      <Name>BitmapHandler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Checksumor\Checksumor.csproj">
-      <Project>{af04678f-2578-4b89-9238-9c872813d651}</Project>
-      <Name>Checksumor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DBUtil\DBUtil.csproj">
-      <Project>{ece15e0d-aec3-42d5-95b4-c14709329626}</Project>
-      <Name>DBUtil</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OfficeTools\OfficeTools.csproj">
-      <Project>{3621f584-bfe7-4e34-a634-6e124eb4d069}</Project>
-      <Name>OfficeTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SecurityVerifyModule\SecurityVerifyModule.csproj">
-      <Project>{b874260c-53c5-4206-a1ec-2643a46e3720}</Project>
-      <Name>SecurityVerifyModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TinyTools\TinyTools.csproj">
-      <Project>{8acfcefc-29d0-45d2-af0e-2dcbd490ce19}</Project>
-      <Name>TinyTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WPFTester\WPFTester.csproj">
-      <Project>{067f2a08-c919-4760-9409-4fde41114efe}</Project>
-      <Name>WPFTester</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
